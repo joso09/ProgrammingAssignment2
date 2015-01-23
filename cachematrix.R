@@ -1,15 +1,39 @@
-## Put comments here that give an overall description of what your
-## functions do
+# This function stores a matrix and "remeber" the last matrix that was inversed 
 
-## Write a short comment describing this function
+## Store one matrix and inverse a matrix
+## Store the last matrix that was inversed last.
 
 makeCacheMatrix <- function(x = matrix()) {
-
+        invc <- NULL
+        x <- NULL
+        org <- NULL
+        
+        set <- function(data) {
+                x <<- data
+        }
+        get <- function() x
+        setinvc <- function(x = matrix()) {
+                org <<- x
+                invc <<- solve(x)
+        }
+        getinvc <- function() invc
+        getorg <- function() org
+        list(set = set, get = get, setinvc = setinvc, getinvc = getinvc, getorg = getorg)
 }
 
 
-## Write a short comment describing this function
-
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        
+        ## If one matrix already has been inversed then check if it was the same 
+        ## matrix that was inversed the last time if so return the cashed inversed matrix
+        ## else inverse 'x'
+        
+        if(!is.null(x$getinvc()) & identical(x$getorg(), x$get()) ) {
+                message("getting cached data")
+                return(x$getinvc())
+        }
+        message("create new inverse")
+        x$setinvc(  x$get()  )
+        data <- x$getinvc()
+        data
 }
